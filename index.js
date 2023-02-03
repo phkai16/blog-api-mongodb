@@ -8,9 +8,10 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const articleRoute = require("./routes/articles");
 const categoryRoute = require("./routes/categories");
-
 dotenv.config();
 // middleware
+const cors = require("cors");
+app.use(cors());
 app.use(express.json());
 app.use(
   fileUpload({
