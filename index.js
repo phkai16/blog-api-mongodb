@@ -34,6 +34,7 @@ app.post("/api/upload/cloud", async (req, res) => {
       resource_type: "auto",
       folder: "blog_images",
     });
+    console.log("BE", result.url);
     return res.status(201).json(result.url);
   } catch (error) {
     return res.status(500).json(err);

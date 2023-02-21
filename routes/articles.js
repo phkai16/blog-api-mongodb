@@ -18,24 +18,18 @@ router.post("/", async (req, res) => {
 // UPDATE
 router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
-    const article = await Article.findById(req.params.id);
-    if (article.username === req.body.username) {
-      try {
-        const updatedArticle = await Article.findByIdAndUpdate(
-          req.params.id,
-          {
-            $set: req.body,
-          },
-          { new: true }
-        );
-        return res.status(200).json(updatedArticle);
-      } catch (err) {
-        return res.status(500).json(err);
-      }
-    } else {
-      return res.status(401).json("You can update only your article!");
-    }
+    console.log("req.body: " + req.body);
+    const updatedArticle = await Article.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    console.log("updatedArticle: " + updatedArticle);
+    return res.status(200).json(updatedArticle);
   } catch (err) {
+    console.log(err);
     return res.status(500).json(err);
   }
 });
@@ -43,17 +37,8 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
 // DELETE
 router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
-    const article = await Article.findById(req.params.id);
-    if (article.username === req.body.username) {
-      try {
-        await Article.findOneAndDelete(req.params.id);
-        return res.status(200).json("Article has been delete...");
-      } catch (err) {
-        return res.status(500).json(err);
-      }
-    } else {
-      return res.status(401).json("You can delete only your article!");
-    }
+    await Article.findByIdAndDelete(req.params.id);
+    return res.status(200).json("Article has been delete...");
   } catch (err) {
     return res.status(500).json(err);
   }
